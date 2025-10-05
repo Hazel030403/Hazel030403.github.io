@@ -9,79 +9,580 @@
     :root {
       --bg: #0f172a;
       --ink: #f8fafc;
+      --muted: #94a3b8;
       --accent: #a855f7;
       --rule: #1e293b;
       --shadow: 0 6px 15px rgba(0,0,0,0.5);
+      --hover: #9333ea;
+      --glow: rgba(168, 85, 247, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: Calibri, sans-serif;
+      font-family: 'Segoe UI', Calibri, sans-serif;
       background: var(--bg);
       color: var(--ink);
-      margin: 0;
-      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
     }
 
-    a {
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+      animation: bgFloat 15s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes bgFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-50px, -50px) rotate(5deg); }
+    }
+
+    /* Back Button */
+    .back-nav {
+      max-width: 1200px;
+      margin: 0 auto 30px;
+      position: relative;
+      z-index: 10;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
       text-decoration: none;
-      color: var(--accent);
-      font-weight: bold;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    h2 {
-      color: var(--accent);
-      letter-spacing: 4px;
-      margin: 10px 0;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: 20px 0;
-    }
-
-    /* Gallery grid */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 24px;
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(20px);
       border-radius: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      transition: all 0.3s ease;
       box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .gallery img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+    .back-btn:hover {
+      background: linear-gradient(135deg, var(--accent), var(--hover));
+      color: #fff;
+      transform: translateX(-5px);
+      box-shadow: 0 4px 20px var(--glow);
+    }
+
+    /* Header */
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery-header h1 {
+      font-size: 48px;
+      background: linear-gradient(135deg, var(--accent) 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 8px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 30px var(--glow);
+    }
+
+    .gallery-header p {
+      color: var(--muted);
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+
+    .divider {
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 20px auto;
+      border-radius: 2px;
+    }
+
+    /* Carousel Container */
+    .gallery-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 0.8s ease-out 0.4s both;
+    }
+
+    .gallery-wrapper {
+      overflow: hidden;
+      border-radius: 20px;
+      position: relative;
+      background: rgba(30, 41, 59, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 30px 10px;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      box-shadow: var(--shadow);
+    }
+
+    .gallery {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 20px;
+      padding: 0 10px;
+    }
+
+    .gallery-item {
+      min-width: calc(33.333% - 14px);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transition: all 0.4s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .gallery-item img:hover {
+      transform: scale(1.05) translateY(-10px);
+      box-shadow: 0 15px 40px var(--glow);
+      border-color: var(--accent);
+    }
+
+    /* Image overlay on hover */
+    .gallery-item {
+      position: relative;
+    }
+
+    .gallery-item::after {
+      content: '🔍';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 48px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    /* Navigation Buttons */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, var(--accent), var(--hover));
+      color: white;
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-btn:hover {
+      background: var(--hover);
+      transform: translateY(-50%) scale(1.15);
+      box-shadow: 0 8px 30px var(--glow);
+    }
+
+    .nav-btn:active {
+      transform: translateY(-50%) scale(1);
+    }
+
+    .prev-btn {
+      left: -30px;
+    }
+
+    .next-btn {
+      right: -30px;
+    }
+
+    /* Dots Navigation */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(30, 41, 59, 0.8);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(168, 85, 247, 0.3);
+      position: relative;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      transform: scale(1.4);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--glow);
+    }
+
+    .dot.active::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.5); }
+    }
+
+    .dot:hover {
+      background: var(--hover);
+      transform: scale(1.2);
+    }
+
+    /* Image Counter */
+    .image-counter {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 0 60px var(--glow);
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+      background: rgba(168, 85, 247, 0.9);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      font-weight: 300;
+    }
+
+    .lightbox-close:hover {
+      background: var(--hover);
+      transform: rotate(90deg) scale(1.1);
+      box-shadow: 0 4px 20px var(--glow);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .back-nav {
+        margin: 0 10px 20px;
+      }
+
+      .gallery-header h1 {
+        font-size: 32px;
+        letter-spacing: 4px;
+      }
+
+      .gallery-header p {
+        font-size: 14px;
+      }
+
+      .gallery-item {
+        min-width: calc(50% - 10px);
+      }
+
+      .gallery-item img {
+        height: 240px;
+      }
+
+      .nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+      }
+
+      .prev-btn {
+        left: 10px;
+      }
+
+      .next-btn {
+        right: 10px;
+      }
+
+      .gallery-wrapper {
+        padding: 20px 5px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-item {
+        min-width: 100%;
+      }
+
+      .gallery-item img {
+        height: 280px;
+      }
+
+      .gallery-header h1 {
+        font-size: 28px;
+        letter-spacing: 3px;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .prev-btn {
+        left: 5px;
+      }
+
+      .next-btn {
+        right: 5px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <a href="index.html">← Home</a>
-
-  <hr>
-    <h2>G A L L E R Y</h2>
-  <hr>
-
-  <div class="gallery">
-    <a href="img.jpg/me.jpg"><img src="img.jpg/me.jpg" alt="Photo 1"></a>
-    <a href="img.jpg/4.jpg"><img src="img.jpg/4.jpg" alt="Photo 2"></a>
-    <a href="img.jpg/3.jpg"><img src="img.jpg/3.jpg" alt="Photo 3"></a>
+  <div class="back-nav">
+    <a href="index.html" class="back-btn">← Home</a>
   </div>
+
+  <div class="gallery-header">
+    <h1>GALLERY</h1>
+    <div class="divider"></div>
+    <p>Explore My Collection</p>
+  </div>
+
+  <div class="gallery-container">
+    <div class="gallery-wrapper">
+      <button class="nav-btn prev-btn" onclick="moveSlide(-1)" aria-label="Previous">‹</button>
+      <button class="nav-btn next-btn" onclick="moveSlide(1)" aria-label="Next">›</button>
+      
+      <div class="gallery" id="gallery">
+        <div class="gallery-item"><img src="img.jpg/me.jpg" alt="Photo 1" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/4.jpg" alt="Photo 2" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/3.jpg" alt="Photo 3" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/1.jpg" alt="Photo 4" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/2.jpg" alt="Photo 5" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/5.jpg" alt="Photo 6" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/6.jpg" alt="Photo 7" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/7.jpg" alt="Photo 8" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/8.jpg" alt="Photo 9" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/9.jpg" alt="Photo 10" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/10.jpg" alt="Photo 11" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/11.jpg" alt="Photo 12" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/12.jpg" alt="Photo 13" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/13.jpg" alt="Photo 14" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/14.jpg" alt="Photo 15" onclick="openLightbox(this.src)"></div>
+        <div class="gallery-item"><img src="img.jpg/15.jpg" alt="Photo 16" onclick="openLightbox(this.src)"></div>
+      </div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+    <div class="image-counter" id="counter">Slide 1 of 6</div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img class="lightbox-content" id="lightbox-img" alt="Full size image">
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    const gallery = document.getElementById('gallery');
+    const items = document.querySelectorAll('.gallery-item');
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    const itemsPerView = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : 3;
+    const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
+
+    // Create dots
+    for (let i = 0; i <= maxIndex; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (i === 0) dot.classList.add('active');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateGallery() {
+      const offset = currentIndex * -100;
+      gallery.style.transform = `translateX(${offset}%)`;
+      
+      // Update dots
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+
+      // Update counter
+      counter.textContent = `Slide ${currentIndex + 1} of ${maxIndex + 1}`;
+    }
+
+    function moveSlide(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = maxIndex;
+      if (currentIndex > maxIndex) currentIndex = 0;
+      updateGallery();
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateGallery();
+    }
+
+    // Auto slide
+    let autoSlide = setInterval(() => moveSlide(1), 5000);
+
+    // Pause auto-slide on hover
+    document.querySelector('.gallery-wrapper').addEventListener('mouseenter', () => {
+      clearInterval(autoSlide);
+    });
+
+    document.querySelector('.gallery-wrapper').addEventListener('mouseleave', () => {
+      autoSlide = setInterval(() => moveSlide(1), 5000);
+    });
+
+    // Lightbox functions
+    function openLightbox(src) {
+      document.getElementById('lightbox').classList.add('active');
+      document.getElementById('lightbox-img').src = src;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') moveSlide(-1);
+      if (e.key === 'ArrowRight') moveSlide(1);
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    gallery.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    gallery.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) moveSlide(1);
+      if (touchEndX - touchStartX > 50) moveSlide(-1);
+    });
+  </script>
 
 </body>
 </html>

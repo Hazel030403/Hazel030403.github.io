@@ -1,149 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/midterm.css">
+    <title>Gallery</title>
+
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+    
+    <div id="navbar"></div>
 
-  <div class="back-nav">
-    <a href="index.html" class="back-btn">← Home</a>
-  </div>
+    <main class="main-content">
+        <section class="gallery-hero">
+            <h1 class="gallery-title">GALLERY</h1>
+        </section>
 
-  <div class="gallery-header">
-    <h1>GALLERY</h1>
-    <div class="divider"></div>
-    <p>Explore My Collection</p>
-  </div>
+        <section class="gallery-container">
 
-  <div class="gallery-container">
-    <div class="gallery-wrapper">
-      <button class="nav-btn prev-btn" onclick="moveSlide(-1)" aria-label="Previous">‹</button>
-      <button class="nav-btn next-btn" onclick="moveSlide(1)" aria-label="Next">›</button>
-      
-      <div class="gallery" id="gallery">
-        <div class="gallery-item"><img src="img.jpg/me.jpg" alt="Photo 1" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/4.jpg" alt="Photo 2" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/3.jpg" alt="Photo 3" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/1.jpg" alt="Photo 4" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/2.jpg" alt="Photo 5" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/5.jpg" alt="Photo 6" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/6.jpg" alt="Photo 7" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/7.jpg" alt="Photo 8" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/8.jpg" alt="Photo 9" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/9.jpg" alt="Photo 10" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/10.jpg" alt="Photo 11" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/11.jpg" alt="Photo 12" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/12.jpg" alt="Photo 13" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/13.jpg" alt="Photo 14" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/14.jpg" alt="Photo 15" onclick="openLightbox(this.src)"></div>
-        <div class="gallery-item"><img src="img.jpg/15.jpg" alt="Photo 16" onclick="openLightbox(this.src)"></div>
-      </div>
-    </div>
+            
+            <div class="gallery-scroll-wrapper" id="galleryWrapper">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="img/1.jpg" alt="Photo">
+                    </div>
 
-    <div class="dots" id="dots"></div>
-    <div class="image-counter" id="counter">Slide 1 of 6</div>
-  </div>
+                    <div class="gallery-item">
+                        <img src="img/10.jpg" alt="Photo">
+                    </div>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">×</span>
-    <img class="lightbox-content" id="lightbox-img" alt="Full size image">
-  </div>
+                    <div class="gallery-item">
+                        <img src="img/11.jpg" alt="Photo">
+                    </div>
 
-  <script>
-    let currentIndex = 0;
-    const gallery = document.getElementById('gallery');
-    const items = document.querySelectorAll('.gallery-item');
-    const dotsContainer = document.getElementById('dots');
-    const counter = document.getElementById('counter');
-    const itemsPerView = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : 3;
-    const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
+                    <div class="gallery-item">
+                        <img src="img/12.jpg" alt="Photo">
+                    </div>
 
-    // Create dots
-    for (let i = 0; i <= maxIndex; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      if (i === 0) dot.classList.add('active');
-      dot.onclick = () => goToSlide(i);
-      dotsContainer.appendChild(dot);
-    }
+                    <div class="gallery-item">
+                        <img src="img/13.jpg" alt="Photo">
+                    </div>
 
-    function updateGallery() {
-      const offset = currentIndex * -100;
-      gallery.style.transform = `translateX(${offset}%)`;
-      
-      // Update dots
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentIndex);
-      });
+                    <div class="gallery-item">
+                        <img src="img/15.jpg" alt="Photo">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/14.jpg" alt="Photo">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/2.jpg" alt="Photo">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/15.jpg" alt="Photo">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/2.jpg" alt="Photo">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/6.jpg" alt="Photo">
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="custom-scrollbar" id="customScrollbar">
+                <div class="scrollbar-thumb" id="scrollbarThumb"></div>
+            </div>
+        </section>
+    </main>
 
-      // Update counter
-      counter.textContent = `Slide ${currentIndex + 1} of ${maxIndex + 1}`;
-    }
 
-    function moveSlide(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = maxIndex;
-      if (currentIndex > maxIndex) currentIndex = 0;
-      updateGallery();
-    }
 
-    function goToSlide(index) {
-      currentIndex = index;
-      updateGallery();
-    }
+    <script src="js/myvid.js"></script>
 
-    // Auto slide
-    let autoSlide = setInterval(() => moveSlide(1), 5000);
-
-    // Pause auto-slide on hover
-    document.querySelector('.gallery-wrapper').addEventListener('mouseenter', () => {
-      clearInterval(autoSlide);
-    });
-
-    document.querySelector('.gallery-wrapper').addEventListener('mouseleave', () => {
-      autoSlide = setInterval(() => moveSlide(1), 5000);
-    });
-
-    // Lightbox functions
-    function openLightbox(src) {
-      document.getElementById('lightbox').classList.add('active');
-      document.getElementById('lightbox-img').src = src;
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    // Close lightbox with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') moveSlide(-1);
-      if (e.key === 'ArrowRight') moveSlide(1);
-    });
-
-    // Touch swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    gallery.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    gallery.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) moveSlide(1);
-      if (touchEndX - touchStartX > 50) moveSlide(-1);
-    });
-  </script>
 
 </body>
 </html>
